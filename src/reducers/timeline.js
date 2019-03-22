@@ -1,41 +1,43 @@
-import {List} from 'immutable-js'
-
+import {List} from 'immutable';
 // função redutora 'REDUCER'
-export function timeline(state=[], action){
+
+export function timeline(state=[new List], action){
     if(action.type === 'LISTAGEM'){
       console.log("entrou na action LISTAGEM");
   
-      return action.fotos;
+      return new List(action.fotos);
     }
 
     if(action.type === 'COMENTARIO'){
-      console.log("Pelo menos entrou no action COmentario");
-      
-      const fotoId = action.fotoId;
-      const novoComentario = action.novoComentario;
-      
-      const fotoAchada = state.find(foto => foto.id === fotoId);        
-      
-      fotoAchada.comentarios.push(novoComentario);
-      return state;
+      // PEGO A FOTO ANTIGA
+      const fotoAntiga = state.find(foto => foto.id === action.fotoId);        
+      // LISTA DE COMENTARIO CONCATENADA COM O NOVO COMENTARIO
+      const novosComentarios = fotoAntiga.comentarios.concat(action.novoComentario);
+      // NOVA FOTO DA ATUALIZA SEM MEXER NO ESTADO DA FOTO ANTIGA
+      const fotoAtualizada = Object.assign({}, fotoAntiga, {comentarios: novosComentarios});
+      // NO ESTADO DO 'STORE', PEGO O INDICE DA FOTO QUE RECEBI COMO PARAMETRO, 
+      const indice = state.findIndex(foto => foto.id === action.fotoId);
+      // COM ESTE INDICE, ESTOU FAZENDO UM REPLACE. PASSANDO O INDICE QUE DEVE SER TROCADO E O NOVO OBJETO
+      const novaLista = state.set(indice, fotoAtualizada);
+
+      return novaLista;
     }
 
     if(action.type === 'LIKE'){
-      console.log("Entrei no LIKE");
-      const fotoAchada = state.find(foto => foto.id === action.fotoId);
-      fotoAchada.likeada = !fotoAchada.likeada;
-        
-      const possivelLiker = fotoAchada.likers.find(likerAtual => likerAtual.login === action.liker.login);
+      const fotoAntiga = state.find(foto => foto.id === action.fotoId);
+      const possivelLiker = fotoAntiga.likers.find(likerAtual => likerAtual.login === action.liker.login);
+      const novoLikeada = !fotoAntiga.likeada;
+      const novosLikers = {}
+      
+      if(possivelLiker === undefined)
+        novosLikers = fotoAntiga.likers.concat(action.liker);
+      else
+        novosLikers = fotoAntiga.likers.filter(likerAtual => likerAtual.login !== action.liker.login);
 
-      if(possivelLiker === undefined){
-          fotoAchada.likers.push(action.liker);
-      } else {
-          const novosLikers = fotoAchada.likers.filter(likerAtual => likerAtual.login !== action.liker.login);
-          fotoAchada.likers = novosLikers;
-      }
-      return state;
-    }
+      const fotoAtualizada = Object.assign({}, fotoAntiga, {likers: novosLikers}, {likeada: novoLikeada});
+      const indice = state.findIndex(foto => foto.id === action.fotoId);
+      const novaLista = state.set(indice, fotoAtualizada);
   
-    return state;
+    return novaLista;
   }
-  
+}

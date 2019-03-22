@@ -123,5 +123,23 @@ Component
 		lá nessa função é retornado uma função com argumento 'dispatch', que é pra fazer era pra fazer. 
 		para isso rolar, precisa do ThunkMiddleware (redux-thunk). e precisa aplicar esse ThunkMiddleware no parametro do createStore. antes disso,
 		deve importar o componente ApplyMiddleware do Redux; Chama o ApplyMiddleware(ThunkMiddleware)
+	
+	*-Subpadrões do flux e Redux:
+		-ActionCreator
+	
+	*-CombineReducers
+		-usa o modulo CombineReducers. cria uma const 'reducers' usando o construtor(funcao1, funcao2)
+		-no construtor do store, passa esse CombineReducers
+		-agora, no getState().funcao1/funcao2
+		ATENÇÃO: O componente tem que ficar ouvindo a Store
+-ContextType
+	-usa-se um módulo 'provider', que envolve todo os componentes. parametro passado pro priveder,
+	-irar servir para os componentes filhos. <provider> components, components</provider>
+	-variavel global do componente.dá se declarar que esse paramentro é obrigatório e tals. 
 
-	a
+-IMMUTABLE
+	-tá no bookMarks (e nos comentários)
+	
+	----LIBS que o mercado pede----
+	-redux
+	-IMMUTABLE
