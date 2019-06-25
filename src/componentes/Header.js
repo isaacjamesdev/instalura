@@ -16,7 +16,7 @@ export default class Header extends Component {
         return (
         <header className="header container">
           <h1 className="header-logo">
-            Instalura
+            Isaac James - projeto para praticar react
           </h1>
 
           <form className="header-busca" onSubmit={this.pesquisa.bind(this)}>
