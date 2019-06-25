@@ -2,11 +2,12 @@
 
 ## withou docker
 
-####-npm install
-####-npm start
+- npm install
+
+- npm start
 
 ## with docker
 
-#### - docker run --name [some-alias] -p [some-available-port]:3080 -d isaacjamesdev/instalura-image
+- docker run --name [some-alias] -p [some-available-port]:3080 -d isaacjamesdev/instalura-image
 
 ##thank you for the visit :)
